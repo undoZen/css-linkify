@@ -1,59 +1,39 @@
-htmlxify
-========
+css-linkify
+===========
 
-I don't like JSX and I want to work with designers, so I created this browserify tramsformer to let you write react templates in separate `*.htmlx` files.
+Just require('style.css') in your javascript and then pass it to browserify. css-linkify will help you add a `<link>` tag in `<head>` to load it.
 
 ##Installation
 
-    npm install htmlxify
+    npm install css-linkify
 
 ##Usage
 
-This is a simple JSX example from React homepage:
+server-side (using express):
 
-    /** @jsx React.DOM */
-    var HelloMessage = React.createClass({
-      render: function() {
-        return <div>Hello {this.props.name}</div>;
-      }
+    app.get('/bundle.js', function (req, res, next) {
+      res.set('content-type', 'application/javascript; charset=utf-8');
+      browserify()
+        .add('./bundle.js')
+        .transform(require('../index.js')(__dirname, {prepend: true}))
+        .bundle()
+        .pipe(res);
     });
 
-    React.renderComponent(<HelloMessage name="John" />, mountNode);
+    app.use(require('express/node_modules/serve-static')(__dirname));
 
-Using browserify and htmlxify, you can change this example into two files:
+bundle.js:
 
-hello.js:
+    require('./style.css');
 
-    var HelloMessage = React.createClass({
-      render: require('./hello.htmlx')
-    });
+index.html:
 
-    React.renderComponent(HelloMessage({name: "John"}), mountNode);
+    <p>Background color of this page should be green.</p>
+    <script src="/bundle.js"></script>
 
-hello.htmlx
+style.css:
 
-    return 'htmlx below', // don't forget this line, it indicates codes below will be transformed to react dom dsl.
-    <div>Hello {props.name}</div>
-
-htmlxify will give you two local variables: `state` and `props`, which are just `this.state` and `this.props` shortcuts.
-
-You can require other htmlx files as partial, they share the same context as you pass to them.
-
-    var chinese = require('./chinese.htmlx').bind(this); //bind call is require
-    var Profile = require('../components/profile.js');
-    return 'htmlx below', //don't forget this line, it separate requires and output
-    <div>
-      <p>Hello, {props.name}</p>
-      <chinese/> {/* partials should not hav children */}
-      <Profile age={props.age} email={props.email}/> {/* use react components as usual */}
-    </div>
-
-[Here's the full example](https://github.com/undoZen/htmlxify/tree/master/example).
-
-##Todo
-
-* TODO: server-side (node) require support
-* TODO: source maps
+    body { background: green; }
 
 ##Lisence
 MIT
