@@ -1,0 +1,19 @@
+{
+  "name": "css-linkify",
+  "version": "0.0.0",
+  "description": "require css file and just add a <link> tag into <head> using link-css module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/undoZen/css-linkify.git"
+  },
+  "author": "undoZen <opensource@undozen.com>",
+  "license": "MIT",
+  "dependencies": {
+    "link-css": "^0.1.0",
+    "through2": "^0.5.1"
+  }
+}
