@@ -8,7 +8,7 @@ app.get('/bundle.js', function (req, res, next) {
   var b = browserify(extend({debug: true}, watchify.args));
   watchify(b);
   b.add('./bundle.js')
-  .transform(require('../index.js')(__dirname))
+  .transform(require('../index.js')(__dirname, {prepend: true}))
   .bundle()
   .pipe(res);
 });
