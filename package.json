@@ -1,6 +1,6 @@
 {
   "name": "css-linkify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "require css file and just add a <link> tag into <head> using link-css module",
   "main": "index.js",
   "scripts": {
